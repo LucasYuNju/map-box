@@ -47,7 +47,7 @@ export default class MapView extends View
     _initMap()
     {
         const options = {
-            zoomControl: false,
+            zoomControl: true,
 			attributionControl: false,
 			center: this.getDefaultCenterLocation(),
 			zoom: this.getDefaultZoom(),
@@ -60,6 +60,31 @@ export default class MapView extends View
         this.map = L.map(this.$element[0], options);
         L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png").addTo(this.map);
     }
+
+    getZoom() {
+        return this.map.getZoom();
+    }
+
+    setZoom(zoom) {
+        this.map.setZoom(zoom);
+    }
+
+    getCenterLocation() {
+        return this.map.getCenter();
+    }
+
+    setCenterLocation(location, zoom, options) {
+        this.map.setView(location, zoom, options);
+    }
+
+    getBounds() {
+        return this.map.getBounds(bounds);
+    }
+
+    setBounds() {
+        this.map.fitBounds(bounds);
+    }
+
 
     invalidateSize(...args)
     {
