@@ -27,7 +27,6 @@ export default class Layer extends ManagedObject
     {
         if (this.getParent())
         {
-            console.log(this.getParent());
             this.getParent().setBounds(this.getBounds());
         }
     }

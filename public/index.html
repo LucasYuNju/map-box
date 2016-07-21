@@ -5,6 +5,7 @@
     <title>MapBox - A simple web map application.</title>
     <link rel="stylesheet" href="/vendor/leaflet/leaflet.css" charset="utf-8">
     <link rel="stylesheet" href="/assets/mb/resource/index.css" charset="utf-8">
+    <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=08acc5ab6bc6f009ada0f980dae8747d"></script>
     <script src="assets/vendor/index.js" charset="utf-8"></script>
     <script src="vendor/open-ui5/resources/sap-ui-core.js" charset="utf-8"
         data-sap-ui-resourceroots='{ "sap.a": "/assets/sap/a", "mb": "/assets/mb" }'></script>
@@ -12,13 +13,17 @@
 <body>
 <script>
     sap.ui.define([ "mb/index" ], function() {
-        var applicatioonController = new mb.app.ApplicationController({
+        var applicationController = new mb.app.ApplicationController({
             viewOptions: {
                 id: "mb-app"
             }
         });
-        applicatioonController.getView().placeAt(document.body);
-        applicatioonController.run();
+        applicationController.getView().placeAt(document.body);
+
+        AMap.service("AMap.Driving", function() {
+            console.log("AMap.Driving is loaded");
+            applicationController.run();
+        })
     });
 </script>
 </body>

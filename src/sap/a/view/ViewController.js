@@ -34,12 +34,10 @@ export default class ViewController extends ManagedObject
         }
     }
 
-
     getView()
     {
         return this.view;
     }
-
 
     createView(options)
     {

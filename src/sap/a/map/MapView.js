@@ -148,4 +148,6 @@ export default class MapView extends View
     {
         this.map.invalidateSize(...args);
     }
+
+
 }

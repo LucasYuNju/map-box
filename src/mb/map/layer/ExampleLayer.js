@@ -44,6 +44,14 @@ export default class ExampleLayer extends Layer
         this.routeGroup.addLayer(this.path);
     }
 
+    // multipolyline
+    drawRoutes(latlngs)
+    {
+        this.routeGroup.clearLayers();
+        this.path = L.multiPolyline(latlngs);
+        this.routeGroup.addLayer(this.path);        
+    }
+
     _updateStartMarker()
     {
         if (!this.startMarker)
