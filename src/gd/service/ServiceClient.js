@@ -6,20 +6,76 @@ const a = 6378245.0;
 const ee = 0.00669342162296594323;
 
 export default class ServiceClient extends ManagedObject {
+    static _instance = null;
 
-    static toMars(locations, callback) {
-        locations = this.swapTuple(locations);
-        AMap.convertFrom(locations, "gps", (status, result) => {
-            console.log("transfer", status, result);
-            if (status === "complete")
-            {
-                const points = result.locations.map(loc => [loc.lng, loc.lat]);
-                callback(points);
-            }
+    metadata = {
+        events: {
+            ready: {}
+        }
+    };
+
+    init() {
+        AMap.service("AMap.Driving", () => {
+            window.setTimeout(() => {
+                console.log("AMap.Driving is loaded");
+                this.driving = new AMap.Driving();
+                this.fireReady();
+            });
         });
     }
 
-    static to84(lat, lng) {
+    static getInstance() {
+        if (!gd.service.ServiceClient._instance)
+        {
+            const val = new gd.service.ServiceClient();
+            gd.service.ServiceClient._instance = val;
+        }
+        return gd.service.ServiceClient._instance;
+    }
+
+    searchDrivingRoute(locations) {
+        return new Promise((resolve, reject) => {
+            this.toGcj(locations).then(result => {
+                this.driving.search(result[0], result[1], (status, result) => {
+                    if (status === "complete") {
+                        const steps = result.routes[0].steps;
+                        const latlngs = steps.map(step => {
+                            return step.path.map(location => {
+                                return this.toWgs84(location.lat, location.lng);
+                            });
+                        });
+                        resolve(latlngs);
+                    }
+                    else {
+                        reject({
+                            status,
+                            info: result.info,
+                        });
+                    }
+                });
+            }, reject);
+        });
+    }
+
+    toGcj(locations) {
+        return new Promise((resolve, reject) => {
+            const lnglats = locations.map(location => [location[1], location[0]]);
+            AMap.convertFrom(lnglats, "gps", (status, result) => {
+                if (status === "complete") {
+                    const points = result.locations.map(location => [location.lng, location.lat]);
+                    resolve(points);
+                }
+                else {
+                    reject({
+                        status,
+                        info: result.info,
+                    });
+                }
+            });
+        });
+    }
+
+    toWgs84(lat, lng) {
         if (this.out_of_china(lng, lat)) {
             return [lng, lat];
         }
@@ -38,15 +94,15 @@ export default class ServiceClient extends ManagedObject {
         }
     }
 
-    static swapTuple(locations) {
+    swapTuple(locations) {
         return locations.map(loc => [loc[1], loc[0]]);
     }
 
-    static out_of_china(lng, lat) {
+    out_of_china(lng, lat) {
         return (lng < 72.004 || lng > 137.8347) || ((lat < 0.8293 || lat > 55.8271) || false);
     }
 
-    static transformlat(lng, lat) {
+    transformlat(lng, lat) {
         var ret = -100.0 + 2.0 * lng + 3.0 * lat + 0.2 * lat * lat + 0.1 * lng * lat + 0.2 * Math.sqrt(Math.abs(lng));
         ret += (20.0 * Math.sin(6.0 * lng * PI) + 20.0 * Math.sin(2.0 * lng * PI)) * 2.0 / 3.0;
         ret += (20.0 * Math.sin(lat * PI) + 40.0 * Math.sin(lat / 3.0 * PI)) * 2.0 / 3.0;
@@ -54,7 +110,7 @@ export default class ServiceClient extends ManagedObject {
         return ret;
     }
 
-    static transformlng(lng, lat) {
+    transformlng(lng, lat) {
         var ret = 300.0 + lng + 2.0 * lat + 0.1 * lng * lng + 0.1 * lng * lat + 0.1 * Math.sqrt(Math.abs(lng));
         ret += (20.0 * Math.sin(6.0 * lng * PI) + 20.0 * Math.sin(2.0 * lng * PI)) * 2.0 / 3.0;
         ret += (20.0 * Math.sin(lng * PI) + 40.0 * Math.sin(lng / 3.0 * PI)) * 2.0 / 3.0;

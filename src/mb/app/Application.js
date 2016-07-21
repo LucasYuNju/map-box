@@ -1,7 +1,6 @@
 import AdaptiveApplication from "sap/a/app/Application";
 
 import MapView from "../map/MapView";
-import ExampleLayer from "../map/layer/ExampleLayer"
 
 export default class Application extends AdaptiveApplication
 {
@@ -19,6 +18,5 @@ export default class Application extends AdaptiveApplication
         });
         this.addSubview(this.mapView);
 
-        
     }
 }

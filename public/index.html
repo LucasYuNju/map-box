@@ -19,11 +19,7 @@
             }
         });
         appController.getView().placeAt(document.body);
-
-        AMap.service("AMap.Driving", function() {
-            console.log("AMap.Driving is loaded");
-            appController.run();
-        })
+        appController.run();
     });
 </script>
 </body>
