@@ -29,6 +29,8 @@ export default class MapView extends AdaptiveMapView
             endLocation
         });
 
+        this.naviLayer.fitBounds();
+
         ServiceClient.getInstance()
             .searchDrivingRoute([startLocation, endLocation])
             .then((result) => {
