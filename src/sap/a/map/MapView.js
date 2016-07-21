@@ -71,8 +71,6 @@ export default class MapView extends View
         this.map = L.map(this.$element[0], options);
     }
 
-
-
     getCenterLocation()
 	{
 		return this.map.getCenter();
@@ -82,7 +80,6 @@ export default class MapView extends View
 	{
 		this.map.setView(centerLocation, zoom, options);
 	}
-
 
     getBounds()
 	{
