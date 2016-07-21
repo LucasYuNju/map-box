@@ -2,7 +2,7 @@ import AdaptiveMapView from "sap/a/map/MapView";
 import TileLayer from "sap/a/map/layer/TileLayer";
 
 import ExampleLayer from "./layer/ExampleLayer";
-import LocationService from "../util/LocationService";
+import LocationService from "gd/service/ServiceClient";
 
 export default class MapView extends AdaptiveMapView
 {

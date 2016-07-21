@@ -13,16 +13,16 @@
 <body>
 <script>
     sap.ui.define([ "mb/index" ], function() {
-        var applicationController = new mb.app.ApplicationController({
+        const appController = new mb.app.ApplicationController({
             viewOptions: {
                 id: "mb-app"
             }
         });
-        applicationController.getView().placeAt(document.body);
+        appController.getView().placeAt(document.body);
 
         AMap.service("AMap.Driving", function() {
             console.log("AMap.Driving is loaded");
-            applicationController.run();
+            appController.run();
         })
     });
 </script>
