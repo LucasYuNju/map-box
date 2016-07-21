@@ -1,12 +1,13 @@
 import AdaptiveApplication from "sap/a/app/Application";
 
 import MapView from "../map/MapView";
+import ExampleLayer from "../map/layer/ExampleLayer"
 
 export default class Application extends AdaptiveApplication
 {
     afterInit()
     {
-        super.init();
+        super.afterInit();
         this.addStyleClass("mb-app");
         this._initMapView();
     }
@@ -17,5 +18,7 @@ export default class Application extends AdaptiveApplication
             defaultZoom: 10
         });
         this.addSubview(this.mapView);
+
+        
     }
 }

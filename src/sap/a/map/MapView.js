@@ -94,7 +94,6 @@ export default class MapView extends View
 		this.map.fitBounds(bounds);
 	}
 
-
     getZoom()
 	{
 		return this.map.getZoom();
@@ -104,9 +103,6 @@ export default class MapView extends View
 	{
 		this.map.setZoom(zoom);
 	}
-
-
-
 
     addLayer(layer)
     {
@@ -150,9 +146,6 @@ export default class MapView extends View
             this.map.removeLayer(layer);
         }
     }
-
-
-
 
     invalidateSize(...args)
     {

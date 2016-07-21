@@ -6,7 +6,7 @@ export default class ViewController extends ManagedObject
 {
     metadata = {
         properties: {
-            viewOptions: { type: "object" }
+            viewOptions: { type: "object", defaultValue: {} }
         }
     };
 
@@ -33,6 +33,7 @@ export default class ViewController extends ManagedObject
             throw new Error("createView(options) must return an instance of sap.a.view.View.");
         }
     }
+
 
     getView()
     {
