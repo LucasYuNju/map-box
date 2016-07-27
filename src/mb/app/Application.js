@@ -9,6 +9,7 @@ export default class Application extends AdaptiveApplication
         super.afterInit();
         this.addStyleClass("mb-app");
         this._initMapView();
+        this._initSearchView();
     }
 
     _initMapView()
@@ -17,6 +18,11 @@ export default class Application extends AdaptiveApplication
             defaultZoom: 10
         });
         this.addSubview(this.mapView);
+    }
 
+    _initSearchView()
+    {
+        // this.poiSearchView = new PoiSearchView("poi-search-view");
+        // this.addSubview(this.poiSearchView);
     }
 }

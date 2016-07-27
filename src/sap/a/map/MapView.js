@@ -58,7 +58,7 @@ export default class MapView extends View
     _initMap()
     {
         const options = {
-            zoomControl: true,
+            zoomControl: false,
 			attributionControl: false,
 			center: this.getDefaultCenterLocation(),
 			zoom: this.getDefaultZoom(),
