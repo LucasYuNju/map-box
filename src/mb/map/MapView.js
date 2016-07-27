@@ -1,9 +1,9 @@
 import AdaptiveMapView from "sap/a/map/MapView";
 import TileLayer from "sap/a/map/layer/TileLayer";
 
-import ServiceClient from "gd/service/ServiceClient";
-
 import NaviLayer from "./layer/NaviLayer";
+import PoiLayer from "./layer/PoiLayer";
+import ServiceClient from "gd/service/ServiceClient";
 
 export default class MapView extends AdaptiveMapView
 {
@@ -19,8 +19,10 @@ export default class MapView extends AdaptiveMapView
             url: "http://{s}.tile.osm.org/{z}/{x}/{y}.png"
         });
         this.addLayer(this.tileLayer);
-        this.naviLayer = new NaviLayer();
-        this.addLayer(this.naviLayer);
+        this.poiLayer = new PoiLayer();
+        this.addLayer(this.poiLayer);
+        // this.naviLayer = new NaviLayer();
+        // this.addLayer(this.naviLayer);
     }
 
     searchRoute(startLocation, endLocation)
@@ -37,5 +39,11 @@ export default class MapView extends AdaptiveMapView
             .then((result) => {
                 this.naviLayer.drawRoutes(result);
             });
+    }
+
+    setPoi(poi)
+    {
+        this.setCenterLocation(poi.location);
+        this.poiLayer.setPoi(poi);
     }
 }

@@ -14,6 +14,7 @@ export default class ViewController extends ManagedObject
     {
         super(...args);
         this.afterInit();
+        this.bindModel();
     }
 
     init()
@@ -32,6 +33,11 @@ export default class ViewController extends ManagedObject
         {
             throw new Error("createView(options) must return an instance of sap.a.view.View.");
         }
+    }
+
+    bindModel()
+    {
+
     }
 
     getView()

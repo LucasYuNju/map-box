@@ -1,6 +1,8 @@
 import AdaptiveApplication from "sap/a/app/Application";
 
 import MapView from "../map/MapView";
+import PoiSearchView from "../view/PoiSearchView";
+import PoiSearchViewController from "../view/PoiSearchViewController";
 
 export default class Application extends AdaptiveApplication
 {
@@ -9,7 +11,7 @@ export default class Application extends AdaptiveApplication
         super.afterInit();
         this.addStyleClass("mb-app");
         this._initMapView();
-        this._initSearchView();
+        this._initPoiSearchView();
     }
 
     _initMapView()
@@ -20,9 +22,10 @@ export default class Application extends AdaptiveApplication
         this.addSubview(this.mapView);
     }
 
-    _initSearchView()
+    _initPoiSearchView()
     {
-        // this.poiSearchView = new PoiSearchView("poi-search-view");
-        // this.addSubview(this.poiSearchView);
+        this.poiSearchViewController = new PoiSearchViewController();
+        this.poiSearchView = this.poiSearchViewController.view;
+        this.addSubview(this.poiSearchView);
     }
 }

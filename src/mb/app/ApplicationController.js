@@ -15,9 +15,19 @@ export default class ApplicationController extends AdaptiveApplicationController
     _initModel()
     {
         const model = new sap.ui.model.json.JSONModel({
-            selectedPoi: null
+            selectedPoi: null,
+            queryPoi: null,
         });
         sap.ui.getCore().setModel(model);
+    }
+
+    bindModel()
+    {
+        const model = sap.ui.getCore().getModel();
+        model.bindProperty("/selectedPoi").attachChange(() => {
+            const poi = model.getProperty("/selectedPoi");
+            this._onSelectedPoiChanged(poi);
+        });
     }
 
     createView(options)
@@ -27,12 +37,16 @@ export default class ApplicationController extends AdaptiveApplicationController
 
     run()
     {
-        // this.view.PoiSearchView.attachInput(() => {
-        //     console.log(this.view.PoiSearchView.keyword);
-        //     // ServiceClient.getInstance().searchPoiAutocomplete("南京大学");
-        // });
         ServiceClient.getInstance().attachReady(() => {
-            this.view.mapView.searchRoute([31.9790247, 118.7548084], [32.04376, 118.77871]);
+            // this.view.mapView.searchRoute([31.9790247, 118.7548084], [32.04376, 118.77871]);
         });
+    }
+
+    _onSelectedPoiChanged(poi)
+    {
+        if (poi !== null)
+        {
+            this.view.mapView.setPoi(poi);
+        }
     }
 }
