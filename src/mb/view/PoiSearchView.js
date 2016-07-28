@@ -22,6 +22,11 @@ export default class PoiSeachView extends View
         super.init();
         this.addStyleClass("search-poi");
         this.$input = $(`<input type="search" placeholder="搜索位置">`);
+        this.$element.append(this.$input);
+        this.$searchIcon = $(`<span class="icon iconfont icon-search"/>`);
+        this.$element.append(this.$searchIcon);
+        this._initSuggestionListView();
+
         this.$input.on("keydown", e => {
             if (e.keyCode === 13)
             {
@@ -46,10 +51,9 @@ export default class PoiSeachView extends View
                 this.fireInput();
             }, 200);
         });
-
-        this.$element.append(this.$input);
-        this.$element.append(`<span class="icon iconfont icon-search"/>`);
-        this._initSuggestionListView();
+        this.$searchIcon.on("click", e => {
+            this.fireSearch();
+        });
     }
 
     _initSuggestionListView()
