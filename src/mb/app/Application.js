@@ -1,7 +1,6 @@
 import AdaptiveApplication from "sap/a/app/Application";
 
-import MapView from "../map/MapView";
-import PoiSearchView from "../view/PoiSearchView";
+import MapViewController from "../map/MapViewController";
 import PoiSearchViewController from "../view/PoiSearchViewController";
 
 export default class Application extends AdaptiveApplication
@@ -16,9 +15,8 @@ export default class Application extends AdaptiveApplication
 
     _initMapView()
     {
-        this.mapView = new MapView("map-view", {
-            defaultZoom: 10
-        });
+        this.mapViewController = new MapViewController();
+        this.mapView = this.mapViewController.view;
         this.addSubview(this.mapView);
     }
 

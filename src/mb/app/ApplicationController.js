@@ -21,15 +21,6 @@ export default class ApplicationController extends AdaptiveApplicationController
         sap.ui.getCore().setModel(model);
     }
 
-    bindModel()
-    {
-        const model = sap.ui.getCore().getModel();
-        model.bindProperty("/selectedPoi").attachChange(() => {
-            const poi = model.getProperty("/selectedPoi");
-            this._onSelectedPoiChanged(poi);
-        });
-    }
-
     createView(options)
     {
         return new Application(options);
@@ -40,13 +31,5 @@ export default class ApplicationController extends AdaptiveApplicationController
         ServiceClient.getInstance().attachReady(() => {
             // this.view.mapView.searchRoute([31.9790247, 118.7548084], [32.04376, 118.77871]);
         });
-    }
-
-    _onSelectedPoiChanged(poi)
-    {
-        if (poi !== null)
-        {
-            this.view.mapView.setPoi(poi);
-        }
     }
 }

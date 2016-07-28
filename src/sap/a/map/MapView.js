@@ -33,7 +33,7 @@ export default class MapView extends View
 
         aggregations: {
             layers: { type: "sap.a.map.layer.Layer" }
-        }
+        },
     };
 
     init()

@@ -19,7 +19,7 @@ export default class PoiSeachViewController extends ViewController
         });
         model.bindProperty("/queryPoi").attachChange(() => {
             const poi = model.getProperty("/queryPoi");
-            this._onQueryPoiChanged(poi);
+            this._onSelectedPoiChanged(poi);
         });
     }
 
@@ -49,13 +49,6 @@ export default class PoiSeachViewController extends ViewController
         if (poi !== null && poi.name !== this.view.getKeyword())
         {
             this.view.setKeyword(poi.name);
-            // update location
-
         }
-    }
-
-    _onQueryPoiChanged(poi)
-    {
-        
     }
 }

@@ -5,6 +5,11 @@ import View from "./View";
 export default class ViewController extends ManagedObject
 {
     metadata = {
+        aggregations: {
+            childViewControllers: {
+                type: "sap.a.view.ViewController"
+            }
+        },
         properties: {
             viewOptions: { type: "object", defaultValue: {} }
         }
@@ -53,5 +58,38 @@ export default class ViewController extends ManagedObject
     initView()
     {
 
+    }
+
+    addChildViewController(viewController, $container)
+    {
+        this.addAggregation("childViewControllers", viewController);
+        this.view.addSubview(viewController.view);
+        return this;
+    }
+
+    removeChildViewController(viewController)
+    {
+        const result = this.removeAggregation("childViewControllers", viewController);
+        if (result)
+        {
+            this.view.removeSubview(viewController.view, neverUseAgain);            
+        }
+        return result;
+    }
+
+    removeAllChildViewController(neverUseAgain)
+    {
+        while (this.getChildViewControllers.length > 0)
+        {
+            this.removeAggregation(this.getChildViewControllers[0], neverUseAgain);
+        }
+    }
+
+    removeFromParent()
+    {
+        if (this.getParent())
+        {
+            this.getParent().removeChildViewController()
+        }
     }
 }
