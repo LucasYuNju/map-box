@@ -18,7 +18,7 @@ export default class MapViewController extends ViewController
     initView()
     {
         super.initView();
-        this.view.attachMapClick(this._map_click.bind(this));
+        this.view.attachMapClick(this._onMapClick.bind(this));
     }
 
     searchRoute(startLocation, endLocation)
@@ -36,7 +36,7 @@ export default class MapViewController extends ViewController
             });
     }
 
-    _map_click(e)
+    _onMapClick(e)
     {
         const latlng = e.getParameters();
         const location = [latlng.lat, latlng.lng];
@@ -45,14 +45,4 @@ export default class MapViewController extends ViewController
             sap.ui.getCore().getModel().setProperty("/selectedPoi", { name, location });
         });
     }
-
-    // _onQueryPoiChanged(e)
-    // {
-    //     const model = sap.ui.getCore().getModel();
-    //     const poi = model.getProperty("/queryPoi");
-    //     if (poi !== null)
-    //     {
-    //         this.view.setSelectedPoi(poi);
-    //     }
-    // }
 }

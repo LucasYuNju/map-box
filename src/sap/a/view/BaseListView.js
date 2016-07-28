@@ -124,7 +124,11 @@ export default class BaseListView extends View
 
     $createNewItem(itemType = 0)
     {
-        const $item = $(`<${this.getItemElementTag()}><span class="text"/></${this.getItemElementTag()}>`);
+        const $item = $(`
+            <${this.getItemElementTag()}>
+                <span class="text"/>
+            </${this.getItemElementTag()}>
+        `);
         return $item;
     }
 

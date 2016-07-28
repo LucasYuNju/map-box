@@ -11,7 +11,9 @@ export default class PoiSeachView extends View
         },
         events: {
             search: { },
-            input: {}
+            input: { },
+            up: { },
+            down: { },
         }
     };
 
@@ -25,6 +27,14 @@ export default class PoiSeachView extends View
             {
                 this.fireSearch();
             }
+            else if (e.keyCode === 38)
+            {
+                this.fireUp();
+            }
+            else if (e.keyCode === 40)
+            {
+                this.fireDown();
+            }
         });
         let inputTimer = null;
         this.$input.on("input", e => {
@@ -33,7 +43,7 @@ export default class PoiSeachView extends View
                 inputTimer = null;
             }
             inputTimer = window.setTimeout(() => {
-                fireInput();
+                this.fireInput();
             }, 200);
         });
 
@@ -45,17 +55,6 @@ export default class PoiSeachView extends View
     _initSuggestionListView()
     {
         this.suggestionListView = new SuggestionListView();
-        this.suggestionListView.setItems([
-        {
-            id: "1",
-            name: "Bamboo",
-        },
-        {
-            id: "2",
-            name: "Panda",
-        },
-
-    ]);
         this.addSubview(this.suggestionListView);
     }
 
