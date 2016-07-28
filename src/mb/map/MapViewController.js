@@ -8,47 +8,51 @@ export default class MapViewController extends ViewController
 {
     createView()
     {
-        const mapView = new MapView("map-view", {
-            defaultZoom: 10
-        });
-        mapView.attachShiftClicked(e => {
-            const latlng = e.getParameters();
-            const location = [latlng.lat, latlng.lng];
-            ServiceClient.getInstance().getPoiByLocation(location).then(result => {
-                const name = result.formattedAddress;
-                sap.ui.getCore().getModel().setProperty("/queryPoi", { name, location });
-            });
+        const mapView = new MapView({
+            defaultZoom: 10,
+            selectedPoi: "{/selectedPoi}",
         });
         return mapView;
     }
 
-    bindModel()
+    initView()
     {
-        const model = sap.ui.getCore().getModel();
-        model.bindProperty("/selectedPoi").attachChange(() => {
-            const poi = model.getProperty("/selectedPoi");
-            this._onSelectedPoiChanged(poi);
+        super.initView();
+        this.view.attachMapClick(this._map_click.bind(this));
+    }
+
+    searchRoute(startLocation, endLocation)
+    {
+        this.view.naviLayer.applySettings({
+            startLocation,
+            endLocation
         });
-        model.bindProperty("/queryPoi").attachChange(() => {
-            const poi = model.getProperty("/queryPoi");
-            this._onQueryPoiChanged(poi);
+        this.view.naviLayer.fitBounds();
+
+        ServiceClient.getInstance()
+            .searchDrivingRoute([startLocation, endLocation])
+            .then((result) => {
+                this.view.naviLayer.drawRoute(result);
+            });
+    }
+
+    _map_click(e)
+    {
+        const latlng = e.getParameters();
+        const location = [latlng.lat, latlng.lng];
+        ServiceClient.getInstance().getPoiByLocation(location).then(result => {
+            const name = result.formattedAddress;
+            sap.ui.getCore().getModel().setProperty("/selectedPoi", { name, location });
         });
     }
 
-    _onSelectedPoiChanged(poi)
-    {
-        if (poi !== null)
-        {
-            this.view.setPoi(poi);
-            this.view.setCenterLocation(poi.location);
-        }
-    }
-
-    _onQueryPoiChanged(poi)
-    {
-        if (poi !== null)
-        {
-            this.view.setPoi(poi);
-        }
-    }
+    // _onQueryPoiChanged(e)
+    // {
+    //     const model = sap.ui.getCore().getModel();
+    //     const poi = model.getProperty("/queryPoi");
+    //     if (poi !== null)
+    //     {
+    //         this.view.setSelectedPoi(poi);
+    //     }
+    // }
 }

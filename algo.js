@@ -1,8 +1,5 @@
-const input = [[1, 2, 3], [2, 3], [3]];
-const arr = input.reduce((prev, cur) => {
-    return prev.concat(cur);
+let arr = "here are 2 students".split(" ");
+arr = arr.map(str => {
+    return str[0].toUpperCase() + str.slice(1);
 });
-arr.sort((a, b) => a > b);
-arr.filter((item, i) => {
-    
-});
+console.log(arr);

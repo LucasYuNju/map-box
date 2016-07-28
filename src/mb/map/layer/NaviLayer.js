@@ -38,7 +38,7 @@ export default class NaviLayer extends Layer
     }
 
     // multipolyline
-    drawRoutes(latlngs)
+    drawRoute(latlngs)
     {
         this.routeGroup.clearLayers();
         this.path = L.multiPolyline(latlngs);

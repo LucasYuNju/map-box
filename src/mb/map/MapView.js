@@ -7,10 +7,13 @@ import ServiceClient from "gd/service/ServiceClient";
 export default class MapView extends AdaptiveMapView
 {
     metadata = {
+        properties: {
+            selectedPoi: { type: "object", bindable: true },
+        },
         events: {
-            shiftClicked: {}
+            mapClick: { parameters: { location: "object" } }
         }
-    }
+    };
 
     afterInit()
     {
@@ -24,7 +27,7 @@ export default class MapView extends AdaptiveMapView
         this.map.on("click", e => {
             if (e.originalEvent.shiftKey)
             {
-                this.fireShiftClicked(e.latlng);
+                this.fireMapClick(e.latlng);
             }
         });
     }
@@ -35,34 +38,19 @@ export default class MapView extends AdaptiveMapView
             url: "http://{s}.tile.osm.org/{z}/{x}/{y}.png"
         });
         this.addLayer(this.tileLayer);
-        // this.naviLayer = new NaviLayer();
-        // this.addLayer(this.naviLayer);
+        this.naviLayer = new NaviLayer();
+        this.addLayer(this.naviLayer);
     }
 
-    searchRoute(startLocation, endLocation)
+    setSelectedPoi(poi)
     {
-        if (this.naviLayer)
+        if (poi)
         {
-            this.naviLayer.applySettings({
-                startLocation,
-                endLocation
-            });
-
-            this.naviLayer.fitBounds();
-
-            ServiceClient.getInstance()
-                .searchDrivingRoute([startLocation, endLocation])
-                .then((result) => {
-                    this.naviLayer.drawRoutes(result);
-                });
+            L.popup()
+                .setLatLng(poi.location)
+                .setContent(poi.name)
+                .openOn(this.map);
+            this.setCenterLocation(poi.location);
         }
-    }
-
-    setPoi(poi)
-    {
-        L.popup()
-            .setLatLng(poi.location)
-            .setContent(poi.name)
-            .openOn(this.map);
     }
 }

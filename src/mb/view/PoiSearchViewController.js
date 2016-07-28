@@ -10,45 +10,41 @@ export default class PoiSeachViewController extends ViewController
         super.init();
     }
 
-    bindModel()
+    createView(options)
     {
-        const model = sap.ui.getCore().getModel();
-        model.bindProperty("/selectedPoi").attachChange(() => {
-            const poi = model.getProperty("/selectedPoi");
-            this._onSelectedPoiChanged(poi);
-        });
-        model.bindProperty("/queryPoi").attachChange(() => {
-            const poi = model.getProperty("/queryPoi");
-            this._onSelectedPoiChanged(poi);
-        });
+        const opt = $.extend({
+            poi: "{/selectedPoi}"
+        }, options);
+        return new PoiSearchView(opt);
     }
 
-    createView()
+    initView(options)
     {
-        const view = new PoiSearchView();
-        view.attachSearch(() => {
-            const keyword = view.getKeyword();
-            ServiceClient.getInstance()
-                .searchPoiAutocomplete(keyword)
-                .then(result => {
-                    if (result.length > 0)
-                    {
-                        const newPoi = {
-                            name: result[0].name,
-                            location: result[0].location,
-                        }
-                        sap.ui.getCore().getModel().setProperty("/selectedPoi", newPoi);
-                    }
-                });
+        this.view.attachSearch(() => {
+            const keyword = this.view.getKeyword();
+            ServiceClient.getInstance().searchPoiAutocomplete(keyword).then(result => {
+                if (result.length === 0)
+                {
+                    return;
+                }
+                const newPoi = {
+                    name: result[0].name,
+                    location: result[0].location,
+                }
+                sap.ui.getCore().getModel().setProperty("/selectedPoi", newPoi);
+            });
         });
-        return view;
+        this.view.attachInput(() => {
+
+        });
     }
 
     _onSelectedPoiChanged(poi)
     {
+        console.log("changed");
         if (poi !== null && poi.name !== this.view.getKeyword())
         {
-            this.view.setKeyword(poi.name);
+            this.view.setPoi(poi);
         }
     }
 }

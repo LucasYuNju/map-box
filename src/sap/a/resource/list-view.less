@@ -1,0 +1,40 @@
+.sap-a-list-view
+{
+    display: block;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li
+    {
+        display: block;
+        margin: 0;
+        padding: 0;
+        white-space: nowrap;
+        overflow-x: hidden;
+        cursor: default;
+
+        &.selected
+        {
+            background-color: @sap-a-selection-bg;
+            color: @sap-a-selection-color;
+        }
+    }
+}
+
+.nju-list-view.striped
+{
+    li:nth-child(2n)
+    {
+        background: @sap-a-striped-color;
+    }
+}
+
+.nju-list-view.hide-selection
+{
+    li.selected
+    {
+        color: unset;
+        background-color: blue;
+    }
+}
