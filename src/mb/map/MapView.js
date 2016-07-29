@@ -4,8 +4,7 @@ import TileLayer from "sap/a/map/layer/TileLayer";
 import NaviLayer from "./layer/NaviLayer";
 import ServiceClient from "gd/service/ServiceClient";
 
-export default class MapView extends AdaptiveMapView
-{
+export default class MapView extends AdaptiveMapView {
     metadata = {
         properties: {
             selectedPoi: { type: "object", bindable: true },
@@ -15,14 +14,12 @@ export default class MapView extends AdaptiveMapView
         }
     };
 
-    afterInit()
-    {
+    afterInit() {
         super.afterInit();
         this.addStyleClass("mb-map-view");
     }
 
-    _initMap()
-    {
+    _initMap() {
         super._initMap();
         this.map.on("click", e => {
             if (e.originalEvent.shiftKey)
@@ -32,8 +29,7 @@ export default class MapView extends AdaptiveMapView
         });
     }
 
-    initLayers()
-    {
+    initLayers() {
         this.tileLayer = new TileLayer({
             url: "http://{s}.tile.osm.org/{z}/{x}/{y}.png"
         });
@@ -42,10 +38,8 @@ export default class MapView extends AdaptiveMapView
         this.addLayer(this.naviLayer);
     }
 
-    setSelectedPoi(poi)
-    {
-        if (poi)
-        {
+    setSelectedPoi(poi) {
+        if (poi) {
             L.popup()
                 .setLatLng(poi.location)
                 .setContent(poi.name)

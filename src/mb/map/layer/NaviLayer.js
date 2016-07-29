@@ -1,7 +1,6 @@
 import Layer from "sap/a/map/layer/Layer";
 
-export default class NaviLayer extends Layer
-{
+export default class NaviLayer extends Layer {
     metadata = {
         properties: {
             startLocation: { type: "any" },
@@ -9,8 +8,7 @@ export default class NaviLayer extends Layer
         },
     };
 
-    init()
-    {
+    init() {
         super.init();
         this.markerGroup = L.featureGroup();
         this.container.addLayer(this.markerGroup);
@@ -18,37 +16,31 @@ export default class NaviLayer extends Layer
         this.container.addLayer(this.routeGroup);
     }
 
-    afterInit()
-    {
+    afterInit() {
         super.afterInit();
     }
 
-    setStartLocation(location)
-    {
+    setStartLocation(location) {
         const loc = L.latLng(location);
         this.setProperty("startLocation", loc);
         this._updateStartMarker();
     }
 
-    setEndLocation(location)
-    {
+    setEndLocation(location) {
         const loc = L.latLng(location);
         this.setProperty("endLocation", loc);
         this._updateEndMarker();
     }
 
     // multipolyline
-    drawRoute(latlngs)
-    {
+    drawRoute(latlngs) {
         this.routeGroup.clearLayers();
         this.path = L.multiPolyline(latlngs);
         this.routeGroup.addLayer(this.path);
     }
 
-    _updateStartMarker()
-    {
-        if (!this.startMarker)
-        {
+    _updateStartMarker() {
+        if (!this.startMarker) {
             this.startMarker = L.circle(this.getStartLocation());
             this.startMarker.setRadius(200);
             this.startMarker.setStyle({
@@ -59,16 +51,13 @@ export default class NaviLayer extends Layer
             })
             this.markerGroup.addLayer(this.startMarker);
         }
-        else
-        {
+        else {
             this.startMarker.setLatLng(this.getStartLocation());
         }
     }
 
-    _updateEndMarker()
-    {
-        if (!this.endMarker)
-        {
+    _updateEndMarker() {
+        if (!this.endMarker) {
             this.endMarker = L.circle(this.getEndLocation());
             this.endMarker.setRadius(200);
             this.endMarker.setStyle({
@@ -79,8 +68,7 @@ export default class NaviLayer extends Layer
             })
             this.markerGroup.addLayer(this.endMarker);
         }
-        else
-        {
+        else {
             this.endMarker.setLatLng(this.getEndLocation());
         }
     }

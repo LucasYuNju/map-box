@@ -14,6 +14,16 @@ export default class SuggestionListView extends BaseListView
         // this.$container.on("keydown", this._onKeyDown.bind(this));
     }
 
+    $createNewItem(itemType = 0)
+    {
+        const $item = $(`
+            <${this.getItemElementTag()}>
+                <span class="text"/>
+            </${this.getItemElementTag()}>
+        `);
+        return $item;
+    }
+
     selectNext()
     {
 

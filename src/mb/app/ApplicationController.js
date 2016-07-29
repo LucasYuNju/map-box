@@ -5,52 +5,43 @@ import ServiceClient from "gd/service/ServiceClient";
 import Application from "./Application";
 import MapViewController from "../map/MapViewController";
 import Model from "../model/Model";
-import PoiSearchViewController from "../view/PoiSearchViewController";
+import POISearchViewController from "../view/POISearchViewController";
 
-export default class ApplicationController extends AdaptiveApplicationController
-{
-    init()
-    {
+export default class ApplicationController extends AdaptiveApplicationController {
+    init() {
         super.init();
     }
 
-    afterInit()
-    {
+    afterInit() {
         super.afterInit();
         this._initModel();
         this._initMapViewController();
-        this._initPoiSearchViewController();
+        this._initPOISearchViewController();
     }
 
-    _initModel()
-    {
+    _initModel() {
         const model = new Model();
         sap.ui.getCore().setModel(model);
-
         this.setModel(model);
     }
 
-    createView(options)
-    {
+    createView(options) {
         return new Application(options);
     }
 
-    _initMapViewController()
-    {
+    _initMapViewController() {
         this.mapViewController = new MapViewController();
         this.addChildViewController(this.mapViewController);
         this.view.mapView = this.mapViewController.view;
     }
 
-    _initPoiSearchViewController()
-    {
-        this.poiSearchViewController = new PoiSearchViewController();
+    _initPOISearchViewController() {
+        this.poiSearchViewController = new POISearchViewController();
         this.addChildViewController(this.poiSearchViewController);
         this.view.poiSearchView = this.poiSearchViewController.view;
     }
 
-    run()
-    {
+    run() {
         ServiceClient.getInstance().attachReady(() => {
             // this.view.mapView.searchRoute([31.9790247, 118.7548084], [32.04376, 118.77871]);
         });

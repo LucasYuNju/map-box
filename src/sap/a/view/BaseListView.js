@@ -105,7 +105,6 @@ export default class BaseListView extends View
         this.$container.append($item);
     }
 
-
     renderItem(item, $item)
     {
         $item.data("item", item);

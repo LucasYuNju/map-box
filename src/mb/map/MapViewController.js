@@ -4,10 +4,8 @@ import ViewController from "sap/a/view/ViewController";
 
 import MapView from "../map/MapView";
 
-export default class MapViewController extends ViewController
-{
-    createView()
-    {
+export default class MapViewController extends ViewController {
+    createView() {
         const mapView = new MapView({
             defaultZoom: 10,
             selectedPoi: "{/selectedPoi}",
@@ -15,14 +13,12 @@ export default class MapViewController extends ViewController
         return mapView;
     }
 
-    initView()
-    {
+    initView() {
         super.initView();
         this.view.attachMapClick(this._onMapClick.bind(this));
     }
 
-    searchRoute(startLocation, endLocation)
-    {
+    searchRoute(startLocation, endLocation) {
         this.view.naviLayer.applySettings({
             startLocation,
             endLocation
@@ -36,8 +32,7 @@ export default class MapViewController extends ViewController
             });
     }
 
-    _onMapClick(e)
-    {
+    _onMapClick(e) {
         const latlng = e.getParameters();
         const location = [latlng.lat, latlng.lng];
         ServiceClient.getInstance().getPoiByLocation(location).then(result => {

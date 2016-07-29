@@ -24,6 +24,7 @@ export default class ServiceClient extends ManagedObject {
                 this.driving = new AMap.Driving(options);
                 this.autocomplete = new AMap.Autocomplete(options);
                 this.geocoder = new AMap.Geocoder({
+                    city: "南京市",
                     radius: 10,
                     extensions: "base",
                 });

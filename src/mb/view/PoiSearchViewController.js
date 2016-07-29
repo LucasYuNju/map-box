@@ -2,25 +2,21 @@ import ServiceClient from "gd/service/ServiceClient";
 
 import ViewController from "sap/a/view/ViewController";
 
-import PoiSearchView from "./PoiSearchView";
+import POISearchView from "./POISearchView";
 
-export default class PoiSeachViewController extends ViewController
-{
-    init()
-    {
+export default class POISeachViewController extends ViewController {
+    init() {
         super.init();
     }
 
-    createView(options)
-    {
+    createView(options) {
         const opt = $.extend({
             poi: "{/selectedPoi}"
         }, options);
-        return new PoiSearchView(opt);
+        return new POISearchView(opt);
     }
 
-    initView(options)
-    {
+    initView(options) {
         this.view.attachSearch(this._onSearch.bind(this));
         this.view.attachInput(this._onInput.bind(this));
         this.view.attachUp(this._onPrevSuggestion.bind(this));
@@ -29,8 +25,7 @@ export default class PoiSeachViewController extends ViewController
         this.view.suggestionListView.attachItemClick(this._onSuggestionClick.bind(this));
     }
 
-    _onInput(e)
-    {
+    _onInput(e) {
         const keyword = this.view.getKeyword();
         ServiceClient.getInstance().searchPoiAutocomplete(keyword).then(result => {
             if (result.length > 0)
@@ -40,8 +35,7 @@ export default class PoiSeachViewController extends ViewController
         });
     }
 
-    _onSearch(e)
-    {
+    _onSearch(e) {
         const keyword = this.view.getKeyword();
         ServiceClient.getInstance().searchPoiAutocomplete(keyword).then(result => {
             if (result.length > 0)
@@ -55,21 +49,18 @@ export default class PoiSeachViewController extends ViewController
         });
     }
 
-    _onPrevSuggestion(e)
-    {
+    _onPrevSuggestion(e) {
         console.log("up");
         this.view.suggestionListView.selectPrev();
         // TODO change input of search box
     }
 
-    _onNextSuggestion(e)
-    {
+    _onNextSuggestion(e) {
         console.log("down");
         this.view.suggestionListView.selectNext();
     }
 
-    _onSuggestionClick(e)
-    {
+    _onSuggestionClick(e) {
         const item = e.getParameter("item");
         const model = sap.ui.getCore().getModel();
         model.setProperty("/selectedPoi", item);

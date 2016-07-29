@@ -2,8 +2,7 @@ import View from "sap/a/view/View";
 
 import SuggestionListView from "./SuggestionListView";
 
-export default class PoiSeachView extends View
-{
+export default class POISearchView extends View {
     metadata = {
         properties: {
             poi: { type: "object", bindable: true },
@@ -17,11 +16,11 @@ export default class PoiSeachView extends View
         }
     };
 
-    init()
-    {
+    init() {
         super.init();
         this.addStyleClass("search-poi");
-        this.$input = $(`<input type="search" placeholder="搜索位置">`);
+        this.$element.append(`<span class="logo"/>`)
+        this.$input = $(`<input type="search" placeholder="搜索位置"/>`);
         this.$element.append(this.$input);
         this.$searchIcon = $(`<span class="icon iconfont icon-search"/>`);
         this.$element.append(this.$searchIcon);
@@ -56,24 +55,20 @@ export default class PoiSeachView extends View
         });
     }
 
-    _initSuggestionListView()
-    {
+    _initSuggestionListView() {
         this.suggestionListView = new SuggestionListView();
         this.addSubview(this.suggestionListView);
     }
 
-    getKeyword()
-    {
+    getKeyword() {
         return this.$input.val();
     }
 
-    setKeyword(value)
-    {
+    setKeyword(value) {
         this.$input.val(value);
     }
 
-    setPoi(poi)
-    {
+    setPoi(poi) {
         if (poi)
         {
             this.$input.val(poi.name)
