@@ -1,7 +1,8 @@
-import ServiceClient from "../../gd/service/ServiceClient";
+import ServiceClient from "gd/service/ServiceClient";
+
+import ViewController from "sap/a/view/ViewController";
 
 import PoiSearchView from "./PoiSearchView";
-import ViewController from "../../sap/a/view/ViewController";
 
 export default class PoiSeachViewController extends ViewController
 {
@@ -69,7 +70,6 @@ export default class PoiSeachViewController extends ViewController
 
     _onSuggestionClick(e)
     {
-        console.log("click");
         const item = e.getParameter("item");
         const model = sap.ui.getCore().getModel();
         model.setProperty("/selectedPoi", item);

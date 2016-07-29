@@ -1,6 +1,6 @@
-import ViewController from "sap/a/view/ViewController";
-
 import ServiceClient from "gd/service/ServiceClient";
+
+import ViewController from "sap/a/view/ViewController";
 
 import MapView from "../map/MapView";
 
