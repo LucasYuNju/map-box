@@ -1,6 +1,6 @@
-import JSONModel from "sap/ui/model/json/JSONModel";
+import BaseModel from "sap/a/model/Model";
 
-export default class Model extends JSONModel {
+export default class Model extends BaseModel {
     constructor(...args) {
         super({
             selectedPoi: null,

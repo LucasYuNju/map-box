@@ -1,4 +1,4 @@
-import JSONModel from "sap.ui.model.json.JSONModel";
+import JSONModel from "sap/ui/model/json/JSONModel";
 
 export default class Model extends JSONModel
 {
@@ -11,5 +11,11 @@ export default class Model extends JSONModel
     init()
     {
 
+    }
+
+    forceSetProperty(sPath, oValue, oContent, bAsyncUpdate) {
+        const result = super.setProperty(sPath, oValue, oContent, bAsyncUpdate);
+        this.checkUpdate(true, false);
+        return result;
     }
 }

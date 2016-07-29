@@ -32,13 +32,11 @@ export default class ApplicationController extends AdaptiveApplicationController
     _initMapViewController() {
         this.mapViewController = new MapViewController();
         this.addChildViewController(this.mapViewController);
-        this.view.mapView = this.mapViewController.view;
     }
 
     _initPOISearchViewController() {
         this.poiSearchViewController = new POISearchViewController();
         this.addChildViewController(this.poiSearchViewController);
-        this.view.poiSearchView = this.poiSearchViewController.view;
     }
 
     run() {

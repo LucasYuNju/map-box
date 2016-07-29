@@ -11,8 +11,10 @@ export default class POISearchView extends View {
         events: {
             search: { },
             input: { },
-            up: { },
-            down: { },
+            arrowKeyUp: { },
+            arrowKeyDown: { },
+            // click, load, focus, blur不用ed，是比较传统的写法
+            // changed, changing通常用cancel的属性
         }
     };
 
@@ -33,11 +35,11 @@ export default class POISearchView extends View {
             }
             else if (e.keyCode === 38)
             {
-                this.fireUp();
+                this.fireArrowKeyUp();
             }
             else if (e.keyCode === 40)
             {
-                this.fireDown();
+                this.fireArrowKeyDown();
             }
         });
         let inputTimer = null;

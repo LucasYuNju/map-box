@@ -19,8 +19,9 @@ export default class POISeachViewController extends ViewController {
     initView(options) {
         this.view.attachSearch(this._onSearch.bind(this));
         this.view.attachInput(this._onInput.bind(this));
-        this.view.attachUp(this._onPrevSuggestion.bind(this));
-        this.view.attachDown(this._onNextSuggestion.bind(this));
+        // TODO
+        this.view.attachArrowKeyUp(this._onPrevSuggestion.bind(this));
+        this.view.attachArrowKeyDown(this._onNextSuggestion.bind(this));
 
         this.view.suggestionListView.attachItemClick(this._onSuggestionClick.bind(this));
     }
@@ -46,13 +47,12 @@ export default class POISeachViewController extends ViewController {
                 }
                 sap.ui.getCore().getModel().setProperty("/selectedPoi", newPoi);
             }
-        });
+        }, reason => console.log(reason));
     }
 
     _onPrevSuggestion(e) {
         console.log("up");
         this.view.suggestionListView.selectPrev();
-        // TODO change input of search box
     }
 
     _onNextSuggestion(e) {
@@ -63,6 +63,6 @@ export default class POISeachViewController extends ViewController {
     _onSuggestionClick(e) {
         const item = e.getParameter("item");
         const model = sap.ui.getCore().getModel();
-        model.setProperty("/selectedPoi", item);
+        model.forceSetProperty("/selectedPoi", item);
     }
 }

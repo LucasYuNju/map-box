@@ -2,40 +2,31 @@ import BaseListView from "sap/a/view/BaseListView";
 
 export default class SuggestionListView extends BaseListView
 {
-    init()
-    {
+    init() {
         super.init();
         this.addStyleClass("suggestion-list-view");
     }
 
-    afterInit()
-    {
+    afterInit() {
         super.afterInit();
-        // this.$container.on("keydown", this._onKeyDown.bind(this));
     }
 
-    $createNewItem(itemType = 0)
-    {
-        const $item = $(`
-            <${this.getItemElementTag()}>
-                <span class="text"/>
-            </${this.getItemElementTag()}>
-        `);
+    $createNewItem() {
+        const $item = super.$createNewItem(0);
+        $item.append(`<span class="district"/>`);
         return $item;
     }
 
-    selectNext()
-    {
+    renderItem(item, $item) {
+        super.renderItem(item, $item);
+        $item.children("district").text(item.district);
+    }
+
+    selectNext() {
 
     }
 
-    selectPrev()
-    {
+    selectPrev() {
 
-    }
-
-    _onKeyDown(e)
-    {
-        console.log(e.keyCode);
     }
 }
