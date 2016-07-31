@@ -63,7 +63,7 @@ export default class ViewController extends ManagedObject
     addChildViewController(viewController, $container)
     {
         this.addAggregation("childViewControllers", viewController);
-        this.view.addSubview(viewController.view);
+        this.view.addSubview(viewController.view, $container);
         return this;
     }
 

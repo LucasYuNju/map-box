@@ -15,6 +15,7 @@ export default class Model extends JSONModel
 
     forceSetProperty(sPath, oValue, oContent, bAsyncUpdate) {
         const result = super.setProperty(sPath, oValue, oContent, bAsyncUpdate);
+        // checkUpdate会刷新所有的model属性
         this.checkUpdate(true, false);
         return result;
     }

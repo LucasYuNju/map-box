@@ -11,6 +11,8 @@ export default class POISearchView extends View {
         events: {
             search: { },
             input: { },
+            focus: { },
+            blur: { },
             arrowKeyUp: { },
             arrowKeyDown: { },
             // click, load, focus, blur不用ed，是比较传统的写法
@@ -42,6 +44,12 @@ export default class POISearchView extends View {
                 this.fireArrowKeyDown();
             }
         });
+        this.$input.on("focus", e => {
+            this.fireFocus();
+        });
+        this.$input.on("blur", e => {
+            this.fireBlur();
+        });
         let inputTimer = null;
         this.$input.on("input", e => {
             if (inputTimer !== null) {
@@ -71,6 +79,8 @@ export default class POISearchView extends View {
     }
 
     setPoi(poi) {
+        this.setProperty("poi", poi);
+        // console.log("setPOI");
         if (poi)
         {
             this.$input.val(poi.name)

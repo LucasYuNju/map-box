@@ -1,10 +1,12 @@
 import AdaptiveApplicationController from "sap/a/app/ApplicationController";
 
 import ServiceClient from "gd/service/ServiceClient";
+import Util from "gd/service/Util";
 
 import Application from "./Application";
 import MapViewController from "../map/MapViewController";
 import Model from "../model/Model";
+import ODSearchViewController from "../view/ODSearchViewController";
 import POISearchViewController from "../view/POISearchViewController";
 
 export default class ApplicationController extends AdaptiveApplicationController {
@@ -16,7 +18,8 @@ export default class ApplicationController extends AdaptiveApplicationController
         super.afterInit();
         this._initModel();
         this._initMapViewController();
-        this._initPOISearchViewController();
+        // this._initPOISearchViewController();
+        this._initODSearchViewController();
     }
 
     _initModel() {
@@ -39,9 +42,29 @@ export default class ApplicationController extends AdaptiveApplicationController
         this.addChildViewController(this.poiSearchViewController);
     }
 
+    _initODSearchViewController() {
+        // TODO ODController如何通知ApplicationController比较好
+        this.odSearchViewController = new ODSearchViewController();
+        this.addChildViewController(this.odSearchViewController);
+        this.odSearchViewController.view.attachSearchOD(this._onSearchOD.bind(this));
+    }
+
+    _onSearchOD(e) {
+        const model = sap.ui.getCore().getModel();
+        const originPoi = model.getProperty("/originPoi");
+        const destPoi = model.getProperty("/destPoi");
+        const origin = {
+            lat: 32.04386024904109, lng: 118.77893458197231
+        };
+        const dest = {
+            lat: 31.978337788573146, lng: 118.75630314846165
+        };
+        this.mapViewController.searchRoute(origin, dest);
+        // this.mapViewController.searchRoute(originPoi.location, destPoi.location);
+    }
+
     run() {
         ServiceClient.getInstance().attachReady(() => {
-            // this.view.mapView.searchRoute([31.9790247, 118.7548084], [32.04376, 118.77871]);
         });
     }
 }

@@ -41,8 +41,8 @@ export default class NaviLayer extends Layer {
 
     _updateStartMarker() {
         if (!this.startMarker) {
-            this.startMarker = L.circle(this.getStartLocation());
-            this.startMarker.setRadius(200);
+            this.startMarker = L.circleMarker(this.getStartLocation());
+            this.startMarker.setRadius(10);
             this.startMarker.setStyle({
                 color: "green",
                 fillColor: "green",
@@ -58,8 +58,8 @@ export default class NaviLayer extends Layer {
 
     _updateEndMarker() {
         if (!this.endMarker) {
-            this.endMarker = L.circle(this.getEndLocation());
-            this.endMarker.setRadius(200);
+            this.endMarker = L.circleMarker(this.getEndLocation());
+            this.endMarker.setRadius(10);
             this.endMarker.setStyle({
                 color: "red",
                 fillColor: "red",
