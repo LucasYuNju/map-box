@@ -1,0 +1,146 @@
+.mb-od-search
+{
+    @mb-od-line-height: 36px;
+
+    position: fixed;
+    left: @mb-search-margin;
+    top: @mb-search-margin;
+    width: @mb-search-width;
+    height: 160px;
+    background-color: @body-bg;
+    display: flex;
+    justify-content: flex-start;
+    padding: 8px;
+    border: 1px solid @mb-separate-color;
+
+    > span.icon-swap
+    {
+        flex-basis: 40px;
+        text-align: center;
+        font-size: 30px;
+        line-height: 2 * @mb-od-line-height;
+        color: @mb-separate-color;
+        cursor: pointer;
+    }
+
+    > .od-search-form
+    {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+
+        > div.search-poi
+        {
+            order: 0;
+            @search-icon-width: 32px;
+            position: relative;
+            display: flex;
+            height: @mb-od-line-height;
+            background-color: @body-bg;
+            border-bottom: 1px solid @mb-separate-color;
+            margin: 4px;
+
+            &.focus
+            {
+                border-bottom: 1px solid #0f89f5;
+            }
+
+            &.focus::before, &.focus::after
+            {
+                content: " ";
+                position: absolute;
+                bottom: 0;
+                right: 0;
+                width: 1px;
+                height: 9px;
+                background: #0f89f5;
+            }
+
+            &.focus::before
+            {
+                left: 0;
+            }
+
+            &.focus::after
+            {
+                right: 0;
+            }
+
+            > input[type=search]
+            {
+                padding-left: 8px;
+                border: none;
+                flex-grow: 1;
+            }
+
+            > span.iconfont
+            {
+                display: none;
+                cursor: pointer;
+                color: gray;
+                width: @search-icon-width;
+                text-align: center;
+                line-height: @mb-search-height;
+
+                &.logo
+                {
+                    display: none;
+                }
+            }
+
+            > .suggestion-list-view
+            {
+                border: 1px solid lightGray;
+                width: @mb-search-width - 32px;
+                padding: 0;
+                margin: 0;
+                position: absolute;
+                top: @mb-od-line-height;
+                left: 0;
+                background-color: @body-bg;
+                z-index: 9;
+
+                > li
+                {
+                    height: @mb-list-item-height;
+                    line-height: @mb-list-item-height;
+                    padding-left: 16px;
+                    cursor: pointer;
+
+                    > span.iconfont
+                    {
+                        color: gray;
+                        width: @search-icon-width;
+                        text-align: center;
+                        line-height: @mb-search-height;
+                    }
+
+                    &:hover
+                    {
+                        background: #efefef;
+                    }
+                }
+            }
+        }
+
+    }
+
+    p.submit-line
+    {
+        order: 1;
+        height: @mb-od-line-height;
+        margin: 4px;
+
+        > button.submit
+        {
+            width: 84px;
+            height: 30px;
+            float: right;
+            margin-right: 4px;
+            background-color: #0f89f5;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    }
+}
