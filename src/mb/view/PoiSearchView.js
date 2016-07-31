@@ -15,19 +15,31 @@ export default class POISearchView extends View {
             blur: { },
             arrowKeyUp: { },
             arrowKeyDown: { },
+            clearInput: { }
             // click, load, focus, blur不用ed，是比较传统的写法
             // changed, changing通常用cancel的属性
         }
     };
 
+    constructor(...args) {
+        this.placeHolder = "搜索位置";
+        if (args.length > 0 && args[0].placeHolder) {
+            this.placeHolder = args[0].placeHolder;
+        }
+        super(...args);
+    }
+
     init() {
         super.init();
         this.addStyleClass("search-poi");
         this.$element.append(`<span class="logo"/>`)
-        this.$input = $(`<input type="search" placeholder="搜索位置"/>`);
+        this.$input = $(`<input type="search" placeholder="${this.placeHolder}"/>`);
         this.$element.append(this.$input);
-        this.$searchIcon = $(`<span class="icon iconfont icon-search"/>`);
-        this.$element.append(this.$searchIcon);
+        this.$search = $(`<span class="icon iconfont icon-search"/>`);
+        this.$element.append(this.$search);
+        this.$delete = $(`<span class="icon iconfont icon-delete" />`);
+        this.$delete.hide();
+        this.$element.append(this.$delete);
         this._initSuggestionListView();
 
         this.$input.on("keydown", e => {
@@ -50,19 +62,11 @@ export default class POISearchView extends View {
         this.$input.on("blur", e => {
             this.fireBlur();
         });
-        let inputTimer = null;
-        this.$input.on("input", e => {
-            if (inputTimer !== null) {
-                window.clearTimeout(inputTimer);
-                inputTimer = null;
-            }
-            inputTimer = window.setTimeout(() => {
-                this.fireInput();
-            }, 200);
-        });
-        this.$searchIcon.on("click", e => {
+        this.$search.on("click", e => {
             this.fireSearch();
         });
+        this.$input.on("input", this._onInput.bind(this));
+        this.$delete.on("click", this._onClearInput.bind(this));
     }
 
     _initSuggestionListView() {
@@ -79,11 +83,33 @@ export default class POISearchView extends View {
     }
 
     setPoi(poi) {
+        console.log("setpoi", poi);
         this.setProperty("poi", poi);
-        // console.log("setPOI");
-        if (poi)
-        {
+        if (poi) {
             this.$input.val(poi.name)
+            if (poi.name === "") {
+                this.$delete.hide();
+            }
         }
+    }
+
+    _onInput(e) {
+        if (this.inputTimer) {
+            window.clearTimeout(this.inputTimer);
+            this.inputTimer = null;
+        }
+        this.inputTimer = window.setTimeout(() => {
+            this.fireInput();
+        }, 200);
+        if (this.$input.val() === "") {
+            this.$delete.hide();
+        }
+        else {
+            this.$delete.show();
+        }
+    }
+
+    _onClearInput(e) {
+        this.fireClearInput();
     }
 }

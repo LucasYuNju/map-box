@@ -19,17 +19,26 @@ export default class ODSearchViewController extends ViewController {
     }
 
     initChildViewController() {
-        this.originController = new POISearchViewController({poiPath: "/originPoi"});
+        this.originController = new POISearchViewController({
+            poiPath: "/originPoi",
+            viewOptions: {
+                placeHolder: "请输入起点",
+            }
+        });
         this.addChildViewController(this.originController, this.view.$("> .od-search-form"));
-        this.destController = new POISearchViewController({poiPath: "/destPoi"});
+        this.destController = new POISearchViewController({
+            poiPath: "/destPoi",
+            viewOptions: {
+                placeHolder: "请输入终点",
+            }
+        });
         this.addChildViewController(this.destController, this.view.$("> .od-search-form"));
     }
 
     _onSwapOD(e) {
-        const model = sap.ui.getCore().getModel();
-        const originPoi = model.getProperty("/originPoi");
-        const destPoi = model.getProperty("/destPoi");
-        model.setProperty("/originPoi", destPoi);
-        model.setProperty("/destPoi", originPoi);
+        const from = this.originController.view.getKeyword();
+        const to = this.destController.view.getKeyword();
+        this.originController.view.setKeyword(to);
+        this.destController.view.setKeyword(from);
     }
 }

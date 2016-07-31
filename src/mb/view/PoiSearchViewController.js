@@ -28,6 +28,7 @@ export default class POISeachViewController extends ViewController {
         this.view.attachArrowKeyDown(this._onArrowKeyDown.bind(this));
         this.view.attachFocus(this._onFocus.bind(this));
         this.view.attachBlur(this._onBlur.bind(this));
+        this.view.attachClearInput(this._onClearInput.bind(this));
 
         this.view.suggestionListView.hide();
         this.view.suggestionListView.attachItemClick(this._onSuggestionClick.bind(this));
@@ -87,5 +88,10 @@ export default class POISeachViewController extends ViewController {
     _onBlur(e) {
         this.view.removeStyleClass("focus");
         this.view.suggestionListView.hide();
+    }
+
+    _onClearInput(e) {
+        const model = sap.ui.getCore().getModel();
+        model.forceSetProperty(this.poiPath, { name: "" });
     }
 }

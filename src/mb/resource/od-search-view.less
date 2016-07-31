@@ -6,16 +6,16 @@
     left: @mb-search-margin;
     top: @mb-search-margin;
     width: @mb-search-width;
-    height: 160px;
+    height: 170px;
     background-color: @body-bg;
     display: flex;
     justify-content: flex-start;
-    padding: 8px;
+    padding: 4px;
     border: 1px solid @mb-separate-color;
 
     > span.icon-swap
     {
-        flex-basis: 40px;
+        flex-basis: 30px;
         text-align: center;
         font-size: 30px;
         line-height: 2 * @mb-od-line-height;
@@ -75,9 +75,8 @@
 
             > span.iconfont
             {
-                display: none;
                 cursor: pointer;
-                color: gray;
+                color: @mb-separate-color;
                 width: @search-icon-width;
                 text-align: center;
                 line-height: @mb-search-height;
@@ -85,6 +84,15 @@
                 &.logo
                 {
                     display: none;
+                }
+
+                &.icon-search
+                {
+                    display: none;
+                }
+
+                &.icon-delete
+                {
                 }
             }
 
