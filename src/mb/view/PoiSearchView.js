@@ -83,7 +83,6 @@ export default class POISearchView extends View {
     }
 
     setPoi(poi) {
-        console.log("setpoi", poi);
         this.setProperty("poi", poi);
         if (poi) {
             this.$input.val(poi.name)
