@@ -43,7 +43,7 @@ export default class ApplicationController extends AdaptiveApplicationController
     }
 
     _initODSearchViewController() {
-        // TODO ODController如何通知ApplicationController比较好
+        // FIXME searchOD事件由哪个Controller处理比较好，AppController or ODSearchController?
         this.odSearchViewController = new ODSearchViewController();
         this.addChildViewController(this.odSearchViewController);
         this.odSearchViewController.view.attachSearchOD(this._onSearchOD.bind(this));
@@ -53,14 +53,13 @@ export default class ApplicationController extends AdaptiveApplicationController
         const model = sap.ui.getCore().getModel();
         const originPoi = model.getProperty("/originPoi");
         const destPoi = model.getProperty("/destPoi");
-        const origin = {
-            lat: 32.04386024904109, lng: 118.77893458197231
-        };
-        const dest = {
-            lat: 31.978337788573146, lng: 118.75630314846165
-        };
-        this.mapViewController.searchRoute(origin, dest);
-        // this.mapViewController.searchRoute(originPoi.location, destPoi.location);
+        this.mapViewController.searchRoute(originPoi.location, destPoi.location);
+        // const origin = {
+        //     lat: 32.04386024904109, lng: 118.77893458197231
+        // };
+        // const dest = {
+        //     lat: 31.978337788573146, lng: 118.75630314846165
+        // };
     }
 
     run() {

@@ -3,24 +3,31 @@ import View from "sap/a/view/View";
 export default class ODSearchView extends View {
     metadata = {
         events: {
-            searchOD: { }
+            searchOD: { },
+            swapOD: { }
         }
     };
 
     init() {
         super.init();
         this.addStyleClass("mb-od-search");
-        this.$container.append(`<span class="icon iconfont icon-swap"></span>`);
+        this.$swap = $(`<span class="icon iconfont icon-swap"></span>`);
+        this.$container.append(this.$swap);
         this.$container.append(`<div class="od-search-form"/>`);
         this.$("> .od-search-form").append(
             `<p class="submit-line">
                 <button class="submit">查询路线</button>
             </p>`);
         this.$submit = this.$("button.submit");
-        this.$submit.on("click", this._onSubmitClick.bind(this));
+        this.$swap.on("click", this._onSwapButtonClick.bind(this));
+        this.$submit.on("click", this._onSubmitButtonClick.bind(this));
     }
 
-    _onSubmitClick() {
-        this.fireSearchOD();        
+    _onSubmitButtonClick() {
+        this.fireSearchOD();
+    }
+
+    _onSwapButtonClick() {
+        this.fireSwapOD();
     }
 }
