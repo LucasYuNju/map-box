@@ -1,9 +1,5 @@
 import ManagedObject from "sap/ui/base/ManagedObject";
-
-const x_PI = 3.14159265358979324 * 3000.0 / 180.0;
-const PI = 3.1415926535897932384626;
-const a = 6378245.0;
-const ee = 0.00669342162296594323;
+import Util from "./Util";
 
 export default class ServiceClient extends ManagedObject {
     static _instance = null;
@@ -65,7 +61,7 @@ export default class ServiceClient extends ManagedObject {
             this.autocomplete.search(keyword, (status, result) => {
                 if (status === "complete") {
                     result.tips.forEach(tip => {
-                        tip.location = toWgs84(tip.location.lat, tip.location.lng);
+                        tip.location = Util.toWgs(tip.location);
                     });
                     resolve(result.tips);
                 }
@@ -82,84 +78,26 @@ export default class ServiceClient extends ManagedObject {
 
     searchDrivingRoute(locations) {
         return new Promise((resolve, reject) => {
-            toGcj(locations).then(result => {
-                this.driving.search(result[0], result[1], (status, result) => {
-                    if (status === "complete") {
-                        const steps = result.routes[0].steps;
-                        const latlngs = steps.map(step => {
-                            return step.path.map(location => {
-                                return toWgs84(location.lat, location.lng);
-                            });
+            locations = locations.map(Util.toGcj);
+            const origin = [locations[0].lng, locations[0].lat];
+            const dest = [locations[1].lng, locations[1].lat];
+            this.driving.search(origin, dest, (status, result) => {
+                if (status === "complete") {
+                    const steps = result.routes[0].steps;
+                    const latlngs = steps.map(step => {
+                        return step.path.map(location => {
+                            return Util.toWgs(location);
                         });
-                        resolve(latlngs);
-                    }
-                    else {
-                        reject({
-                            status,
-                            info: result.info,
-                        });
-                    }
-                });
-            }, reject);
+                    });
+                    resolve(latlngs);
+                }
+                else {
+                    reject({
+                        status,
+                        info: result.info,
+                    });
+                }
+            });
         });
     }
-
-}
-
-
-function toGcj(locations) {
-    return new Promise((resolve, reject) => {
-        const lnglats = locations.map(location => [location[1], location[0]]);
-        AMap.convertFrom(lnglats, "gps", (status, result) => {
-            if (status === "complete") {
-                const points = result.locations.map(location => [location.lng, location.lat]);
-                resolve(points);
-            }
-            else {
-                reject({
-                    status,
-                    info: result.info,
-                });
-            }
-        });
-    });
-}
-
-function toWgs84(lat, lng) {
-    if (out_of_china(lng, lat)) {
-        return [lng, lat];
-    }
-    else {
-        var dlat = transformlat(lng - 105.0, lat - 35.0);
-        var dlng = transformlng(lng - 105.0, lat - 35.0);
-        var radlat = lat / 180.0 * PI;
-        var magic = Math.sin(radlat);
-        magic = 1 - ee * magic * magic;
-        var sqrtmagic = Math.sqrt(magic);
-        dlat = (dlat * 180.0) / ((a * (1 - ee)) / (magic * sqrtmagic) * PI);
-        dlng = (dlng * 180.0) / (a / sqrtmagic * Math.cos(radlat) * PI);
-        var mglat = lat + dlat;
-        var mglng = lng + dlng;
-        return [lat * 2 - mglat, lng * 2 - mglng];
-    }
-}
-
-function out_of_china(lng, lat) {
-    return (lng < 72.004 || lng > 137.8347) || ((lat < 0.8293 || lat > 55.8271) || false);
-}
-
-function transformlat(lng, lat) {
-    var ret = -100.0 + 2.0 * lng + 3.0 * lat + 0.2 * lat * lat + 0.1 * lng * lat + 0.2 * Math.sqrt(Math.abs(lng));
-    ret += (20.0 * Math.sin(6.0 * lng * PI) + 20.0 * Math.sin(2.0 * lng * PI)) * 2.0 / 3.0;
-    ret += (20.0 * Math.sin(lat * PI) + 40.0 * Math.sin(lat / 3.0 * PI)) * 2.0 / 3.0;
-    ret += (160.0 * Math.sin(lat / 12.0 * PI) + 320 * Math.sin(lat * PI / 30.0)) * 2.0 / 3.0;
-    return ret;
-}
-
-function transformlng(lng, lat) {
-    var ret = 300.0 + lng + 2.0 * lat + 0.1 * lng * lng + 0.1 * lng * lat + 0.1 * Math.sqrt(Math.abs(lng));
-    ret += (20.0 * Math.sin(6.0 * lng * PI) + 20.0 * Math.sin(2.0 * lng * PI)) * 2.0 / 3.0;
-    ret += (20.0 * Math.sin(lng * PI) + 40.0 * Math.sin(lng / 3.0 * PI)) * 2.0 / 3.0;
-    ret += (150.0 * Math.sin(lng / 12.0 * PI) + 300.0 * Math.sin(lng / 30.0 * PI)) * 2.0 / 3.0;
-    return ret;
 }
